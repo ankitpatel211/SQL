@@ -1,0 +1,10 @@
+SELECT remp.employee_id, remp.name,
+    ROUND(CASE rpay.hours_worked
+         WHEN rpay.hours_worked > 40 THEN
+         (40 * rpay.hourly rate)
+         + ((rpay.hours_worked - 40) * rpay.hourly_rate * 1.5)     
+         ELSE (rpay.hours_worked * rpay.hourly_rate)
+    END, 2) AS rpay.pay, remp.position
+FROM rp_employees remp join rp_payroll rpay
+    on remp.employee_id = rpay.employee_id
+ORDER BY remp.employee_id asc
