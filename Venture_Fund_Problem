@@ -1,0 +1,77 @@
+Problem
+Which VC firm is paying the biggest premium over its own funding ceiling?
+
+You are a data analyst at Sequoia studying how competing venture firms behave against their internal funding limits. 
+Each firm sets a per-startup funding ceiling, and the portfolio team wants to flag the firm whose average check size most clearly exceeds its own limit, ignoring firms with too few deals to judge.
+
+For each firm, compute the average funding across its funded startups, kept to 2 decimal places as avg_funding.
+Keep only firms where this average is strictly greater than their funding_limit and that have funded at least 2 startups.
+Sort the qualifying firms by avg_funding in descending order and return only the single top firm.
+Also return funding_limit to 2 decimal places.
+Output columns: avg_funding, funding_limit, vc_id, vc_name
+
+
+Schema
+2 tables
+Expand all
+
+fs_funded_startups
+4 cols
+startup_id
+VARCHAR
+startup_name
+VARCHAR
+vc_id
+VARCHAR
+funding
+DECIMAL
+
+fs_venture_capitalist
+3 cols
+vc_id
+VARCHAR
+vc_name
+VARCHAR
+funding_limit
+DECIMAL
+Examples
+Example 1
+
+Input:
+
+fs_funded_startups:
+
+startup_id	startup_name	vc_id	funding
+S1	Startup 1	VC1	2
+S2	Startup 2	VC1	1
+S3	Startup 3	VC2	2.5
+S4	Startup 4	VC2	2
+S5	Startup 5	VC3	1.8
+S6	Startup 6	VC3	1.7
+fs_venture_capitalist:
+
+vc_id	vc_name	funding_limit
+VC1	VC Firm 1	1.5
+VC2	VC Firm 2	2
+VC3	VC Firm 3	1.75
+VC4	VC Firm 4	2.5
+Output:
+
+avg_funding	funding_limit	vc_id	vc_name
+2.25	2	VC2	VC Firm 2
+Explanation: VC2 funded two startups averaging (2.5 + 2) / 2 = 2.25, strictly above its 2.00 limit, so it qualifies. VC1's average of 1.5 only equals its 1.5 limit and is excluded, as is any firm whose average does not strictly exceed its ceiling or that funded fewer than 2 startups; among qualifiers, only the firm with the highest avg_funding is returned. The fs_funded_startups table contains more rows than sampled above; the output is computed over the full dataset.
+
+Constraints
+Firms with no funded startups can never qualify (they have no average check size and fewer than 2 deals). A startup whose funding amount is undisclosed (NULL) still counts toward the minimum-deal threshold but must not contribute to the average.
+
+Firms with no funded startups never qualify
+
+A firm qualifies only if its average funding is strictly greater than its funding_limit (equal does not qualify)
+
+A firm qualifies only if it has funded at least 2 startups
+
+avg_funding and funding_limit must be reported to 2 decimal places
+
+Output columns must be exactly avg_funding, funding_limit, vc_id, vc_name
+
+Sort qualifying firms by avg_funding in descending order and return only the top 1 row
