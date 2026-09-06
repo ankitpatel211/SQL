@@ -1,0 +1,37 @@
+-- create
+CREATE TABLE fs_funded_startups (
+  startup_id varchar(10),
+  startup_name varchar(15),
+  vc_id varchar(10),
+  funding decimal(10,2)
+);
+
+CREATE TABLE fs_venture_capitalist (
+  vc_id varchar(10),
+  vc_name varchar(10),
+  funding_limit decimal(10,2)
+);
+
+-- insert
+INSERT INTO fs_funded_startups(startup_id,startup_name,vc_id,funding) VALUES ('S1', 'Startup 1', 'VC1', 2);
+INSERT INTO fs_funded_startups(startup_id,startup_name,vc_id,funding)  VALUES ('S2', 'Startup 2', 'VC1', 1);
+INSERT INTO fs_funded_startups(startup_id,startup_name,vc_id,funding)  VALUES ('S3', 'Startup 3', 'VC2', 2.5);
+INSERT INTO fs_funded_startups(startup_id,startup_name,vc_id,funding)  VALUES ('S4', 'Startup 4', 'VC2', 2);
+INSERT INTO fs_funded_startups(startup_id,startup_name,vc_id,funding)  VALUES ('S5', 'Startup 5', 'VC3', 1.8);
+INSERT INTO fs_funded_startups(startup_id,startup_name,vc_id,funding)  VALUES ('S6', 'Startup 6', 'VC3', 1.7);
+
+INSERT INTO fs_venture_capitalist(vc_id,vc_name,funding_limit) VALUES ('VC1','VC Firm 1', 1.5);
+INSERT INTO fs_venture_capitalist(vc_id,vc_name,funding_limit) VALUES ('VC2','VC Firm 2', 2);
+INSERT INTO fs_venture_capitalist(vc_id,vc_name,funding_limit) VALUES ('VC3','VC Firm 3', 1.75);
+INSERT INTO fs_venture_capitalist(vc_id,vc_name,funding_limit) VALUES ('VC4','VC Firm 4', 2.5);
+
+---fetch
+select cast(AVG(ffs.funding) as decimal(10,2)) as avg_funding, 
+fvc.funding_limit, ffs.vc_id, fvc.vc_name
+from fs_funded_startups ffs join fs_venture_capitalist fvc
+on fvc.vc_id = ffs.vc_id
+group by fvc.funding_limit, ffs.vc_id, fvc.vc_name
+having avg(ffs.funding) > fvc.funding_limit
+order by avg_funding desc
+
+go
