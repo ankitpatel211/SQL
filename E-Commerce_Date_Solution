@@ -1,0 +1,42 @@
+-- create
+CREATE TABLE ecom_dt_orders (
+  order_id varchar(10),
+  product_id varchar(15),
+  user_id varchar(10),
+  order_date varchar(10)
+);
+
+CREATE TABLE ecom_dt_products (
+  product_id varchar(10),
+  product_name varchar(10),
+  category varchar(20)
+);
+
+-- insert
+INSERT INTO ecom_dt_orders(order_id,product_id,user_id,order_date) VALUES (1, 'P001', 'U001', '02/25/2023');
+INSERT INTO ecom_dt_orders(order_id,product_id,user_id,order_date) VALUES (2, 'P002', 'U001', '03/14/2023');
+INSERT INTO ecom_dt_orders(order_id,product_id,user_id,order_date) VALUES (3, 'P001', 'U002', '03/16/2023');
+INSERT INTO ecom_dt_orders(order_id,product_id,user_id,order_date) VALUES (4, 'P003', 'U002', '03/18/2023');
+INSERT INTO ecom_dt_orders(order_id,product_id,user_id,order_date) VALUES (5, 'P004', 'U003', '04/01/2023');
+INSERT INTO ecom_dt_orders(order_id,product_id,user_id,order_date) VALUES (6, 'P005', 'U004', '2024/12/30');
+
+INSERT INTO ecom_dt_products(product_id,product_name,category) VALUES ('P001','Product 1', 'Electronics');
+INSERT INTO ecom_dt_products(product_id,product_name,category) VALUES ('P002','Product 2', 'Clothing');
+INSERT INTO ecom_dt_products(product_id,product_name,category) VALUES ('P003','Product 3', 'Home Goods');
+INSERT INTO ecom_dt_products(product_id,product_name,category) VALUES ('P004','Product 4', 'Books');
+INSERT INTO ecom_dt_products(product_id,product_name,category) VALUES ('P005','Product 5', 'Furniture');
+
+---fetch
+SELECT ecdp.category,
+     CASE DATENAME(weekday, CONVERT(datetime, ecdo.order_date, 101))
+        WHEN "Saturday" THEN 1 
+        WHEN "Sunday" THEN 1
+        ELSE 0 
+     END as is_weekend, ecdo.order_date, ecdp.product_name, ecdo.user_id
+FROM ecom_dt_orders ecdo
+JOIN ecom_dt_products ecdp
+on ecdp.product_id = ecdo.product_id
+where ecdo.order_date like '%[0-1][0-9]/[0-3][0-9]/[1-2][0-9][0-9][0-9]%'
+ORDER BY ecdp.category asc, ecdo.order_date desc
+
+GO
