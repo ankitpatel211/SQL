@@ -1,0 +1,58 @@
+Problem
+Compute weekly paychecks with overtime for the payroll run.
+
+You are a data analyst on the payroll team at Odoo. The weekly payroll run needs each employee's gross pay computed from their logged hours, applying the standard overtime policy before checks go out.
+
+Compute each employee's gross pay from their logged hours:
+The first 40 hours are paid at the employee's hourly rate.
+Hours above 40 are paid at 1.5 times the hourly rate.
+Working exactly 40 hours earns no overtime premium.
+Round the pay to 2 decimal places.
+Return employee_id, name, pay, and position, sorted by employee_id in ascending order.
+Output columns: employee_id, name, pay, position
+
+
+Schema
+2 tables
+Expand all
+
+rp_employees
+4 cols
+
+rp_payroll
+3 cols
+Examples
+Example 1
+
+Input:
+
+rp_employees:
+
+employee_id	name	age	position
+1	Alice	25	Software Engineer
+2	Bob	30	Data Analyst
+3	Carol	28	Product Manager
+4	Dave	24	Software Engineer
+5	Eve	31	QA Engineer
+rp_payroll:
+
+employee_id	hours_worked	hourly_rate
+1	45	30
+2	38	25
+3	41.5	35
+4	40	28
+Output:
+
+employee_id	name	pay	position
+1	Alice	1425	Software Engineer
+2	Bob	950	Data Analyst
+3	Carol	1478.75	Product Manager
+4	Dave	1120	Software Engineer
+Explanation: Alice worked 45 hours at 30/hr: 40 x 30 = 1200 plus 5 overtime hours at 1.5 x 30 = 45/hr, adding 225 for a total of 1425. Bob worked 38 hours (no overtime), so his pay is simply 38 x 25 = 950. Dave worked exactly 40 hours, which gets no overtime premium: 40 x 28 = 1120.
+
+Constraints
+Overtime applies only to hours strictly above 40, paid at 1.5 times hourly_rate; the first 40 hours are paid at the base rate
+Exactly 40 hours worked earns no overtime premium
+pay must be rounded to 2 decimal places
+Output columns must be exactly employee_id, name, pay, position
+Sort results by employee_id in ascending order
