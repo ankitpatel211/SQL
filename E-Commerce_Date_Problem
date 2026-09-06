@@ -1,0 +1,61 @@
+Problem
+Flag weekend orders from a feed with untrusted date strings.
+
+You are a data engineer at Amazon. The order feed stores order_date as raw text, and upstream systems occasionally write malformed values.
+Marketing wants to know which orders were placed on weekends, broken out by product category, using only the rows whose dates can be trusted.
+
+Write a query that keeps only the rows of ecom_dt_orders whose order_date exactly matches
+the MM/DD/YYYY pattern (two digits, slash, two digits, slash, four digits); discard any row that does not match.
+Parse the valid dates and enrich each surviving order with its product's details; orders whose product_id has no matching product are dropped.
+For each row, compute is_weekend = 1 if the parsed date falls on a Saturday or Sunday, otherwise 0.
+Return order_date formatted back as MM/DD/YYYY text.
+Sort the results by category ascending, then by the parsed order date descending (newest first within each category).
+Output columns: category, is_weekend, order_date, product_name, user_id
+
+
+Schema
+2 tables
+Expand all
+
+ecom_dt_orders
+4 cols
+
+ecom_dt_products
+3 cols
+Examples
+Example 1
+
+Input:
+
+ecom_dt_orders:
+
+order_id	product_id	user_id	order_date
+1	P001	U001	02/25/2023
+2	P002	U001	03/14/2023
+3	P001	U002	03/16/2023
+4	P003	U002	03/18/2023
+5	P004	U003	04/01/2023
+ecom_dt_products:
+
+product_id	product_name	category
+P001	Product 1	Electronics
+P002	Product 2	Clothing
+P003	Product 3	Home Goods
+P004	Product 4	Books
+Output:
+
+category	is_weekend	order_date	product_name	user_id
+Books	1	04/01/2023	Product 4	U003
+Clothing	0	03/14/2023	Product 2	U001
+Electronics	0	03/16/2023	Product 1	U002
+Electronics	1	02/25/2023	Product 1	U001
+Home Goods	1	03/18/2023	Product 3	U002
+Explanation: 04/01/2023 is a Saturday, so the Books order gets is_weekend = 1, while 03/14/2023 (a Tuesday) gets 0. Within Electronics, 03/16/2023 appears before 02/25/2023 because rows are sorted by category ascending and then by the parsed date descending.
+
+Constraints
+Keep only rows where order_date exactly matches the MM/DD/YYYY pattern (regex ^[0-9]{2}/[0-9]{2}/[0-9]{4}$); discard malformed dates
+Orders whose product_id has no matching row in ecom_dt_products are dropped
+is_weekend is 1 when the parsed date falls on a Saturday or Sunday, otherwise 0
+Output order_date formatted back as MM/DD/YYYY text
+Output columns must be exactly category, is_weekend, order_date, product_name, user_id
+Sort by category ascending, then by the parsed order date descending (not by the raw string)
