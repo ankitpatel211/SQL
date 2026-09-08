@@ -1,0 +1,27 @@
+-- create
+CREATE TABLE cgdc_sales (
+  storeid varchar(10),
+  productname varchar(15),
+  category varchar(10),
+  soldunits int,
+  [description] varchar(50),
+  discount decimal(10,2)
+);
+
+-- insert
+INSERT INTO cgdc_sales(storeid,productname,category,soldunits,[description],discount) 
+VALUES ('S101', 'Biscuits', 'Food', 120, 'Tasty Biscuits [10% off]', 0.0);
+INSERT INTO cgdc_sales(storeid,productname,category,soldunits,[description],discount) 
+VALUES ('S102', 'Shampoo', 'Hygiene', 85, 'Smoothens Hair [5% off]', 0.25);
+INSERT INTO cgdc_sales(storeid,productname,category,soldunits,[description],discount) 
+VALUES ('S103', 'Banana', 'Food', 150, 'Fresh Banana', 0.0);
+INSERT INTO cgdc_sales(storeid,productname,category,soldunits,[description],discount) 
+VALUES ('S101', 'Toothpaste', 'Hygiene', 300, 'Protects Teeth', 0.0);
+INSERT INTO cgdc_sales(storeid,productname,category,soldunits,[description],discount) 
+VALUES ('S102', 'Shirt', 'Clothes', 65, 'Cotton Shirts [20% off]', 0.0);
+
+---fetch
+select storeid, productname, category, soldunits, [description], case when [description] like '%[0-9]%' then 
+  cast(substring([description], CHARINDEX('[', [description]) + 1, 
+  CHARINDEX('%', [description]) - CHARINDEX('[', [description]) - 1) as decimal(10,2)) / 100
+else 0 end as discount from cgdc_sales;
