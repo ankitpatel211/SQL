@@ -1,0 +1,42 @@
+-- create
+CREATE TABLE so_planet (
+  id int,
+  [name] varchar(20),
+  star_id int,
+  [type] varchar(20),
+  distance decimal(10,2)
+);
+
+CREATE TABLE so_star (
+  id int,
+  [name] varchar(20),
+  color varchar(20),
+  [type] varchar(20),
+  distance decimal(10,2)
+)
+
+-- insert
+INSERT INTO so_planet(id,[name],star_id,[type],distance) 
+VALUES (1, 'Mercury', 1, 'Terrestrial', 0.39);
+INSERT INTO so_planet(id,[name],star_id,[type],distance) 
+VALUES (2, 'Venus', 1, 'Terrestrial', 0.72);
+INSERT INTO so_planet(id,[name],star_id,[type],distance) 
+VALUES (3, 'Mars', 1, 'Terrestrial', 1.52);
+INSERT INTO so_planet(id,[name],star_id,[type],distance) 
+VALUES (4, 'Sirius B', 2, 'Gas Giant', 20.0);
+
+
+INSERT INTO so_star(id,[name],color,[type],distance) 
+VALUES (1, 'Sun', 'Yellow', 'Dwarf', 0.0);
+INSERT INTO so_star(id,[name],color,[type],distance) 
+VALUES (2, 'Sirius', 'Blue', 'Main Sequence Star', 8.6);
+INSERT INTO so_star(id,[name],color,[type],distance) 
+VALUES (3, 'Vega', 'Blue', 'Main Sequence Star', 25.0);
+
+---fetch
+select ss.[name] as star_name, ss.color as star_color,ss.[type] as star_type, 
+sp.[name] as planet_name, sp.[type] as planet_type, 
+ss.distance as distance_star_earth, sp.distance as distance_planet_star
+from so_star ss join so_planet sp
+on ss.id = sp.star_id
+
