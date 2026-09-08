@@ -1,0 +1,46 @@
+Problem
+Rebuild the discount column from the product description text.
+
+You are an analyst at a consumer goods company. Store teams type promotions directly into the product description as tags like [10% off], and the separately maintained discount column has drifted out of sync in past loads. Finance wants the discount recomputed from the description text itself, which is the source of truth.
+
+Write a query that returns every row of cgdc_sales with all original columns, but with the Discount value recomputed from Description: if the description contains a tag of the form [N% off] (an integer percentage inside square brackets, e.g. [20% off]), the discount is N / 100 expressed as a decimal fraction (so [10% off] becomes 0.1); if the description contains no such tag, the discount is 0.0.
+Leave every other column unchanged and keep the rows in their original table order.
+Output columns: StoreID, ProductName, Category, SoldUnits, Description, Discount
+
+
+Schema
+1 table
+Expand all
+
+cgdc_sales
+6 cols
+Examples
+Example 1
+
+Input:
+
+cgdc_sales:
+
+storeid	productname	category	soldunits	description	discount
+S101	Biscuits	Food	120	Tasty Biscuits [10% off]	0.0
+S102	Shampoo	Hygiene	85	Smoothens Hair [5% off]	0.25
+S103	Banana	Food	150	Fresh Bananas	0.0
+S101	Toothpaste	Hygiene	300	Protects Teeth	0.0
+S102	Shirt	Clothes	65	Cotton Shirts [20% off]	0.0
+Output:
+
+StoreID	ProductName	Category	SoldUnits	Description	Discount
+S101	Biscuits	Food	120	Tasty Biscuits [10% off]	0.1
+S102	Shampoo	Hygiene	85	Smoothens Hair [5% off]	0.05
+S103	Banana	Food	150	Fresh Bananas	0.0
+S101	Toothpaste	Hygiene	300	Protects Teeth	0.0
+S102	Shirt	Clothes	65	Cotton Shirts [20% off]	0.2
+Explanation: "Tasty Biscuits [10% off]" contains the tag [10% off], so its recomputed discount is 10 / 100 = 0.1 even though the stored column says 0.0. "Smoothens Hair [5% off]" drifted to 0.25 in the stored column, but the tag says the true discount is 0.05. "Fresh Bananas" has no tag, so its discount is 0.0. All other columns pass through unchanged and rows keep their original order.
+
+Constraints
+Return every row with all original columns
+Recompute Discount by extracting the integer N from an [N% off] tag in Description and dividing by 100
+Discount is 0.0 when no [N% off] tag is present
+All other column values must pass through unchanged
+Preserve the original table row order
+Output columns must be exactly StoreID, ProductName, Category, SoldUnits, Description, Discount
