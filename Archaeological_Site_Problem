@@ -1,0 +1,41 @@
+Problem
+An archaeological team catalogs its recovered artifacts in the ark_artifacts table of a data warehouse. Return only the artifacts recovered in significant numbers (those with a quantity greater than 100), with each artifact’s material shown in uppercase. Keep every column from the source table.
+
+Output columns: ID, Item, Period, Material, Quantity
+
+
+Schema
+1 table
+Expand all
+
+ark_artifacts
+5 cols
+ID
+INT
+Item
+VARCHAR
+Period
+VARCHAR
+Material
+VARCHAR
+Quantity
+INT
+Examples
+Example 1
+
+Input:
+
+ark_artifacts:
+
+ID	Item	Period	Material	Quantity
+1	Pottery	Prehistoric	clay	150
+2	Weapon	Medieval	metal	90
+3	Jewel	Roman	gold	200
+Output:
+
+ID	Item	Period	Material	Quantity
+1	Pottery	Prehistoric	CLAY	150
+3	Jewel	Roman	GOLD	200
+Constraints
+Handle NULL values appropriately
+Return results matching the expected output schema and order
