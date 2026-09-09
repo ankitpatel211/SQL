@@ -1,0 +1,68 @@
+Problem
+Profile name lengths across the flight network for a display-width audit.
+
+You are a data engineer at Air India. The in-flight display team is auditing how much screen space airport names and aircraft model names occupy on boarding screens, so they need the character length of each name associated with every flight. Some name fields carry stray leading or trailing spaces that must not be counted.
+
+Write a query that returns one row per flight in ba_flights.
+Look up the origin airport's name by matching ba_flights.origin_airport to ba_airports.airport_id, and the destination airport's name by matching ba_flights.destination_airport to ba_airports.airport_id.
+Find the aircraft operating each flight by matching ba_flights.plane_id to ba_planes.plane_id.
+For each name, trim leading and trailing whitespace first, then return its character length.
+Only flights with a matching origin airport, destination airport, and plane should appear.
+Return the rows in ascending order of flight_id.
+Output columns: flight_id, origin_airport_name_length, destination_airport_name_length, plane_model_length
+
+
+Schema
+3 tables
+Expand all
+
+ba_flights
+4 cols
+
+ba_airports
+2 cols
+
+ba_planes
+2 cols
+Examples
+Example 1
+
+Input:
+
+ba_flights:
+
+flight_id	origin_airport	destination_airport	plane_id
+1	A1	B1	2
+2	A2	B2	3
+3	A3	B3	1
+4	A9	B1	2
+ba_airports:
+
+airport_id	airport_name
+A1	San Francisco
+B1	Los Angeles
+A2	New York
+B2	Boston
+A3	Miami
+B3	Orlando
+ba_planes:
+
+plane_id	plane_model
+1	Airbus A320
+2	Boeing 737
+3	Airbus A380
+Output:
+
+flight_id	origin_airport_name_length	destination_airport_name_length	plane_model_length
+1	13	11	10
+2	8	6	11
+3	5	7	11
+Explanation: Flight 1 departs A1 (San Francisco, 13 characters) for B1 (Los Angeles, 11 characters) and is operated by plane 2 (Boeing 737, 10 characters including the space). Flight 3 departs A3 (Miami, 5) for B3 (Orlando, 7) on plane 1, the Airbus A320 (11).
+
+Constraints
+Join ba_airports twice: once on origin_airport = airport_id and once on destination_airport = airport_id
+Match the plane via ba_flights.plane_id = ba_planes.plane_id
+Trim leading and trailing whitespace from each name before measuring its length
+Use inner joins: only flights with a matching origin airport, destination airport, and plane appear
+Output columns must be exactly flight_id, origin_airport_name_length, destination_airport_name_length, plane_model_length
+Return rows in ascending order of flight_id
