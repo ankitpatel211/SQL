@@ -1,0 +1,59 @@
+--Create
+Create Table ba_flights(
+   flight_id int,
+   origin_airport varchar(30),
+   destination_airport varchar(30),
+   plane_id int
+);
+
+Create Table ba_airports(
+  airport_id varchar(30),
+  airport_name varchar(30)
+);
+
+Create Table ba_planes(
+  plane_id int,
+  plane_model varchar(20)
+);
+
+--Insert
+INSERT INTO ba_flights(flight_id, origin_airport, destination_airport, plane_id) 
+VALUES (1, 'A1', 'B1', 2);
+INSERT INTO ba_flights(flight_id, origin_airport, destination_airport, plane_id) 
+VALUES (2, 'A2', 'B2', 3);
+INSERT INTO ba_flights(flight_id, origin_airport, destination_airport, plane_id) 
+VALUES (3, 'A3', 'B3', 1);
+INSERT INTO ba_flights(flight_id, origin_airport, destination_airport, plane_id) 
+VALUES (4, 'A9', 'B1', 2);
+
+INSERT INTO ba_airports(airport_id, airport_name) 
+VALUES ('A1','San Fransisco');
+INSERT INTO ba_airports(airport_id, airport_name) 
+VALUES ('B1','Los Angeles');
+INSERT INTO ba_airports(airport_id, airport_name) 
+VALUES ('A2','New York');
+INSERT INTO ba_airports(airport_id, airport_name) 
+VALUES ('B2','Boston');
+INSERT INTO ba_airports(airport_id, airport_name) 
+VALUES ('A3','Miami');
+INSERT INTO ba_airports(airport_id, airport_name) 
+VALUES ('B3','Orlando');
+
+INSERT INTO ba_planes(plane_id, plane_model) 
+VALUES (1,'Airbus A320');
+INSERT INTO ba_planes(plane_id, plane_model) 
+VALUES (2,'Boeing 737');
+INSERT INTO ba_planes(plane_id, plane_model) 
+VALUES (3,'Airbus A380');
+
+
+--Fetch
+SELECT baf.flight_id, len(trim(oa.airport_name)) as origin_airport_name,
+len(trim(da.airport_name)) as destination_airport_name, 
+len(trim(bap.plane_model)) as plane_model
+FROM ba_flights baf join ba_airports oa
+on baf.origin_airport = oa.airport_id
+join ba_airports da
+on baf.destination_airport = da.airport_id
+join ba_planes bap
+on baf.plane_id = bap.plane_id
