@@ -1,0 +1,60 @@
+--Create
+Create Table fr_customers(
+   customer_id int,
+   full_name varchar(10),
+   [location] varchar(10)
+);
+
+Create Table fr_orders(
+  order_id int,
+  customer_id int,
+  product_id int,
+  quantity int
+);
+
+Create Table fr_products(
+  product_id int,
+  product_info varchar(10)
+);
+
+--Insert
+INSERT INTO fr_customers(customer_id, full_name, [location]) 
+VALUES (1, 'John Doe', 'Texas');
+INSERT INTO fr_customers(customer_id, full_name, [location]) 
+VALUES (2, 'Jane Smith', 'California');
+
+INSERT INTO fr_orders(order_id, customer_id, product_id, quantity) 
+VALUES (1001, 1, 101, 5);
+INSERT INTO fr_orders(order_id, customer_id, product_id, quantity) 
+VALUES (1002, 2, 102, 2);
+
+INSERT INTO fr_products(product_id, product_info) 
+VALUES (101,'Carpet,Red');
+INSERT INTO fr_products(product_id, product_info) 
+VALUES (102,'Tile,Blue');
+
+
+--Fetch
+SELECT fc.customer_id,
+       substring(fc.full_name, 1, charindex(' ', fc.full_name) - 1) as first_name,
+       substring(fc.full_name, charindex(' ', fc.full_name) + 1, len(fc.full_name)) as last_name,
+       fc.[location],
+       fo.order_id,
+       substring(fp.product_info, 1, charindex(',', fp.product_info) - 1) as product_type,
+       substring(fp.product_info, charindex(',', fp.product_info) + 1, len(fp.product_info)) as product_color,
+       fp.product_id,
+       fo.quantity
+FROM fr_customers fc JOIN fr_orders fo
+ON fo.customer_id = fc.customer_id JOIN fr_products fp
+ON fp.product_id = fo.product_id
+ORDER BY fo.order_id asc
+
+
+
+
+
+
+
+
+
+
