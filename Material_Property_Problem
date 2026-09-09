@@ -1,0 +1,69 @@
+Problem
+Attach material metadata to every lab experiment, even when the catalog is incomplete.
+
+You are a data engineer at a materials science lab. Experiment results land in one table while the material catalog lives in another, and the catalog is known to be incomplete: some experiments reference materials that were never registered. The lab lead wants a full experiment report with material details attached wherever they exist.
+
+Report every experiment with its material's details attached wherever the material is registered in the catalog.
+Every experiment must appear exactly once in the result: if an experiment's material_id has no match in me_materials, still return the experiment row with NULL material_name and material_type.
+Materials that have no experiments must not appear at all.
+Return experiment_date formatted as text in YYYY-MM-DD form.
+Sort the results by experiment_id in ascending order.
+Output columns: experiment_id, material_id, experiment_date, experiment_results, material_name, material_type
+
+
+Schema
+2 tables
+Expand all
+
+me_experiments
+4 cols
+experiment_id
+INT
+material_id
+INT
+experiment_date
+DATE
+experiment_results
+DECIMAL
+
+me_materials
+3 cols
+material_id
+INT
+material_name
+VARCHAR
+material_type
+VARCHAR
+Examples
+Example 1
+
+Input:
+
+me_experiments:
+
+experiment_id	material_id	experiment_date	experiment_results
+1	101	2023-07-01	7.6
+2	102	2023-07-02	8.3
+3	103	2023-07-03	6.9
+4	101	2023-07-04	7.2
+me_materials:
+
+material_id	material_name	material_type
+101	Material A	Type X
+102	Material B	Type Y
+104	Material C	Type Z
+Output:
+
+experiment_id	material_id	experiment_date	experiment_results	material_name	material_type
+1	101	2023-07-01	7.6	Material A	Type X
+2	102	2023-07-02	8.3	Material B	Type Y
+3	103	2023-07-03	6.9		
+4	101	2023-07-04	7.2	Material A	Type X
+Explanation: Experiment 3 references material 103, which is missing from the catalog, so it is kept with NULL material_name and material_type. Material C (104) has never been used in an experiment, so it does not appear. All four experiments are returned in ascending experiment_id order.
+
+Constraints
+Every experiment appears exactly once; experiments with an unregistered material_id keep NULL material_name and material_type
+Materials with no experiments must not appear in the output
+experiment_date must be returned as text formatted YYYY-MM-DD
+Output columns must be exactly experiment_id, material_id, experiment_date, experiment_results, material_name, material_type
+Sort results by experiment_id in ascending order
