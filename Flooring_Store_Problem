@@ -1,0 +1,74 @@
+Problem
+Assemble a clean order report by splitting packed name and product fields.
+
+You are a data analyst at the multinational flooring retailer Floors'R'Us. The sales system exports customer names as a single full_name string and product attributes packed into a comma-separated product_info string. The sales team wants one tidy row per order with the name and product attributes split into separate fields.
+
+Build one row per order, combining each order with its customer's and product's details; orders without a matching customer and product are dropped.
+Derive first_name and last_name by splitting full_name on the single space (first part and second part).
+Derive product_type and product_color by splitting product_info on the comma (first part and second part).
+Return the columns in exactly this order: customer_id, first_name, last_name, location, order_id, product_type, product_color, product_id, quantity, with rows in ascending order of order_id.
+Output columns: customer_id, first_name, last_name, location, order_id, product_type, product_color, product_id, quantity
+
+
+Schema
+3 tables
+Expand all
+
+fr_customers
+3 cols
+customer_id
+INT
+full_name
+VARCHAR
+location
+VARCHAR
+
+fr_orders
+4 cols
+order_id
+INT
+customer_id
+INT
+product_id
+INT
+quantity
+INT
+
+fr_products
+2 cols
+product_id
+INT
+product_info
+VARCHAR
+Examples
+Example 1
+
+Input:
+
+fr_customers:
+
+customer_id	full_name	location
+1	John Doe	Texas
+2	Jane Smith	California
+fr_orders:
+
+order_id	customer_id	product_id	quantity
+1001	1	101	5
+1002	2	102	2
+fr_products:
+
+product_id	product_info
+101	Carpet,Red
+102	Tile,Blue
+Output:
+
+customer_id	first_name	last_name	location	order_id	product_type	product_color	product_id	quantity
+1	John	Doe	Texas	1001	Carpet	Red	101	5
+2	Jane	Smith	California	1002	Tile	Blue	102	2
+Explanation: Order 1001 belongs to customer 1, whose full_name "John Doe" splits into John / Doe, and product 101, whose product_info "Carpet,Red" splits into Carpet / Red. Order 1002 follows the same rules for Jane Smith and the blue tile.
+
+Constraints
+Return the columns in exactly this order: customer_id, first_name, last_name, location, order_id, product_type, product_color, product_id, quantity.
+Split full_name on the single space; split product_info on the comma.
+Only orders with a matching customer and product appear.
+Return rows in ascending order of order_id.
