@@ -1,0 +1,22 @@
+-- Create
+CREATE TABLE ark_artifacts(
+  id int,
+  item varchar(20),
+  [period] varchar(20),
+  material varchar(20),
+  quantity int
+);
+
+-- Insert
+INSERT INTO ark_artifacts(id, item, [period], material, quantity) 
+VALUES (1, 'Pottery', 'Prehistoric', 'clay', 150);
+INSERT INTO ark_artifacts(id, item, [period], material, quantity) 
+VALUES (2, 'Weapon', 'Medieval', 'metal', 90);
+INSERT INTO ark_artifacts(id, item, [period], material, quantity) 
+VALUES (3, 'Jewel', 'Roman', 'gold', 200);
+
+
+-- Fetch
+SELECT id, item, [period], upper(material) as material, quantity 
+FROM ark_artifacts
+WHERE quantity > 100
