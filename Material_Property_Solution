@@ -1,0 +1,38 @@
+-- create
+CREATE TABLE me_experiments (
+  experiment_id int,
+  material_id int,
+  experiment_date date,
+  experiment_results decimal(10,1)
+);
+
+CREATE TABLE me_materials (
+  material_id int,
+  material_name varchar(20),
+  material_type varchar(20)
+);
+
+-- insert
+INSERT INTO me_experiments(experiment_id, material_id, experiment_date, experiment_results) 
+VALUES (1, 101, '2023-07-01', 7.6);
+INSERT INTO me_experiments(experiment_id, material_id, experiment_date, experiment_results) 
+VALUES (2, 102, '2023-07-02', 8.3);
+INSERT INTO me_experiments(experiment_id, material_id, experiment_date, experiment_results) 
+VALUES (3, 103, '2023-07-03', 6.9);
+INSERT INTO me_experiments(experiment_id, material_id, experiment_date, experiment_results) 
+VALUES (4, 101, '2023-07-04', 7.2);
+
+INSERT INTO me_materials(material_id, material_name, material_type)
+VALUES (101, 'Material A', 'Type X')
+INSERT INTO me_materials(material_id, material_name, material_type)
+VALUES (102, 'Material B', 'Type Y')
+INSERT INTO me_materials(material_id, material_name, material_type)
+VALUES (104, 'Material C', 'Type Z')
+
+
+---fetch
+SELECT mee.experiment_id, mee.material_id, mee.experiment_date,
+       mee.experiment_results, mem.material_name, mem.material_type
+FROM me_experiments mee LEFT OUTER JOIN me_materials mem
+ON mee.material_id = mem.material_id 
+ORDER BY mee.experiment_id asc
