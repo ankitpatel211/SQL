@@ -1,0 +1,56 @@
+Problem
+Temperature Reading Analysis.
+
+You are a data engineer at a thermodynamics lab. Temperature and pressure sensors log into separate tables, and the analysis team wants a combined metric per experiment; some experiments only have a reading in one of the two tables, and those cannot be scored and must be left out.
+
+For every experiment that has both a temperature and a pressure reading, compute the combined metric temperature * pressure.
+Return the experiment ID aliased exactly as ExperimentID and the product aliased exactly as Result (the physical columns are lowercase, so quoted aliases are required).
+Sort the results by experiment ID in ascending order.
+Output columns: ExperimentID, Result
+
+
+Schema
+2 tables
+Expand all
+
+td_pressure
+2 cols
+experimentid
+INT
+pressure
+INT
+
+td_temperature
+2 cols
+experimentid
+INT
+temperature
+DECIMAL
+Examples
+
+Example 1
+Input:
+
+td_pressure:
+
+experimentid	pressure
+1	1
+3	2
+td_temperature:
+
+experimentid	temperature
+1	273.15
+2	293.15
+3	313.15
+Output:
+
+ExperimentID	Result
+1	273.15
+3	626.3
+Explanation: Experiment 1 appears in both tables, so its Result is 273.15 * 1 = 273.15; experiment 3 gives 313.15 * 2 = 626.3. Experiment 2 has a temperature reading but no pressure reading, so it is excluded by the inner join.
+
+Constraints
+Score only experiments that have a reading in both tables; experiments missing from either table are excluded
+Result = temperature * pressure
+Output columns must be aliased exactly ExperimentID and Result (quoted aliases over the lowercase physical columns)
+Sort by experiment ID in ascending order
