@@ -1,0 +1,24 @@
+-- create
+CREATE TABLE td_pressure (
+  experimentid int,
+  pressure int
+);
+
+CREATE TABLE td_temperature (
+  experimentid int,
+  temperature decimal(10,2)
+)
+
+-- insert
+INSERT INTO td_pressure(experimentid,pressure) VALUES(1, 1);
+INSERT INTO td_pressure(experimentid,pressure) VALUES(3, 2);
+
+INSERT INTO td_temperature(experimentid,temperature) VALUES(1, 273.15);
+INSERT INTO td_temperature(experimentid,temperature) VALUES(2, 293.15);
+INSERT INTO td_temperature(experimentid,temperature) VALUES(3, 313.15);
+
+
+-- fetch 
+SELECT tdp.experimentid as ExperimentID, (temperature * pressure) as Result
+FROM td_pressure tdp JOIN td_temperature tdt
+ON tdt.experimentid = tdp.experimentid
